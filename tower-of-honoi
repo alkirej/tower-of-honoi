@@ -1,0 +1,4 @@
+#!/bin/bash
+
+python tower_of_honoi.py $@
+
