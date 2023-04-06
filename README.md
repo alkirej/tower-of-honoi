@@ -1,4 +1,4 @@
-# tower-of-honoi
+# Tower of Honoi Solver
 Programatically solve the Tower of Honoi child's puzzle.
 
 I ran across the statement that the Tower of Honoi puzzle could be solved with a recursive algorithm while
