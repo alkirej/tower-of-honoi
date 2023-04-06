@@ -1,6 +1,7 @@
 
 
 class Const:
+    """ Constents for the TowerPeg class."""
     PEG_STR: str = "||"
 
 
@@ -8,69 +9,54 @@ class TowerPeg:
     """
     Class representing a single "peg" in a Tower of Honoi puzzle.  The Tower of Honoi
     typically has 3 such pegs.
+    sz: the number of tiles in the puzzle
+    start_full: one of the three pegs (usually the first) starts full and the other two start empty.
     """
-
     def __init__(self, sz: int, start_full: bool = False):
         self.size: int = sz
-        self._peg_height: int = sz + 2
         self._stack: list = []
 
         if start_full:
             for n in range(sz, 0, -1):
                 self._stack.append(n)
 
-        self._empty_count: int = self._peg_height - len(self._stack)
-
     @property
-    def peg_height(self):
-        return self._peg_height
-
-    def print_by_self(self) -> None:
-        print()
-        # PRINT EMPTY PORTION OF THE TOWER PEG
-        for _ in range(self._peg_height - len(self._stack)):
-            print(" " * self.size, "||", " " * self.size)
-
-        for n in reversed(self._stack):
-            print(" " * (self.size - n + 1), "=" * (2*n+2), " " * (self.size - n + 1), sep="")
-
-    def num_in_order(self) -> int:
-        for idx in range(1, len(self._stack)+1):
-            if idx != self._stack[-idx]:
-                return idx-1
-
-        return len(self._stack)
+    def peg_height(self) -> int:
+        """ Height of the peg - which is 2 more than the maximum # of tiles in the puzzle. """
+        return self.size + 2
 
     def remove_from_top(self) -> int:
+        """
+        Remove and return the top tile/coaster from this peg.
+        return:  the size of the tile/coaster removed.
+        """
         return self._stack.pop()
 
     def add_to_top(self, coaster_size: int) -> int:
+        """
+        Add a tile/coaster to the top of this peg
+        param coaster_size: the size of the tile/coaster to add to the peg.
+        return: the # of tiles currently on this peg after the addition.
+        """
         self._stack.append(coaster_size)
         return len(self._stack)
 
-    def fits(self, coaster_size: int) -> bool:
-        if len(self._stack) == 0:
-            return True
-        return coaster_size < self._stack[-1]
+    def print_line(self, line_num: int) -> None:
+        """
+        Print one "line" of this peg.  The line could have a tile or it could be empty.
+        empty tiles will display only the peg.  Non-empty tiles will display the tile/coaster.
+        It will have a size according to the size stored in the stack.  It will cover the peg
+        and spaces on either side of the peg equal to the size stored in the stack.
 
-    def is_empty(self) -> bool:
-        return 0 == len(self._stack)
-
-    def top_size(self) -> int:
-        if len(self._stack) == 0:
-            return self.size + 1
-        else:
-            return self._stack[-1]
-
-    def stack_size(self) -> int:
-        return len(self._stack)
-
-    def print_line(self, line_num: int):
-        if line_num >= self._peg_height:
-            raise ValueError(f"line_num ({line_num}) exceeds tower height ({self._peg_height}).")
+        param line_num: the line number (starting with 0 at the top) of the peg portion to display.
+                            Any new line characters (which are needed to make the display make
+                            sense) are expected to be outside of this method.
+        """
+        if line_num >= self.peg_height:
+            raise ValueError(f"line_num ({line_num}) exceeds tower height ({self.peg_height}).")
 
         # PRINT PEG ONLY IF LINE IS ABOVE ALL COASTERS ON IT
-        if line_num < (self._peg_height - len(self._stack)):
+        if line_num < (self.peg_height - len(self._stack)):
             print(" " * self.size, Const.PEG_STR, " " * self.size, sep="", end="")
         # PRINT THE PROPER SIZE COASTER
         else:
