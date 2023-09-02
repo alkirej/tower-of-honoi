@@ -1,4 +1,6 @@
 #!/bin/bash
 
-python tower_of_honoi.py $@
+# python tower_of_honoi.py $@
+
+python tower_of_honoi.py 5 q
 

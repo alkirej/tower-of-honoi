@@ -57,7 +57,7 @@ def print_pegs(pegs: [peg.TowerPeg]):
                   ||                ||                ||
                   ||               ====               ||
                   ||              ======         ============
-              ==========         ========       ==============
+              ==========         ========       ==============kj
 
     pegs: the 3 pegs of the puzzle.
     """
@@ -75,12 +75,14 @@ def print_pegs(pegs: [peg.TowerPeg]):
     print()
 
     if not Const.QUIET:
-        print("    Press any key to continue ...")
+        print("    Press any key to continue ...", end="")
+        sys.stdout.flush()
 
         # Loop until a key is pressed and released
         with pynput.keyboard.Listener(on_release=key_released) as listen:
             listen.join()
-            print("", end="")
+            print("")
+
     else:
         print()
         time.sleep(0.250)
